@@ -100,8 +100,21 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "todo-app-angular:build:production",
+            "firebaseProject": "todo-app-angular",
+            "firebaseHostingSite": "todo-app-angular-3d2c0"
+          }
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "418a1480-2fa4-4383-bde7-a39a115c8eb2"
   }
 }
