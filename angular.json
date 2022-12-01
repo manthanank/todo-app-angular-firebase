@@ -106,9 +106,7 @@
           "options": {
             "prerender": false,
             "ssr": false,
-            "browserTarget": "todo-app-angular:build:production",
-            "firebaseProject": "todo-app-angular",
-            "firebaseHostingSite": "todo-app-angular-3d2c0"
+            "browserTarget": "todo-app-angular:build:production"
           }
         }
       }

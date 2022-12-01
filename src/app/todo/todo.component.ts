@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TodoService } from '../shared/todo.service';
-
 @Component({
   selector: 'app-todo',
   standalone: true,
@@ -11,7 +9,7 @@ import { TodoService } from '../shared/todo.service';
 })
 export class TodoComponent implements OnInit {
 
-  constructor(private ts: TodoService) { }
+  constructor() { }
 
   ngOnInit(): void {
   }
