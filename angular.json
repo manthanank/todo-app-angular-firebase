@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "todo-app-angular": {
+    "todo-app-angular-firebase": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/todo-app-angular",
+            "outputPath": "dist/todo-app-angular-firebase",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -69,10 +69,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "todo-app-angular:build:production"
+              "browserTarget": "todo-app-angular-firebase:build:production"
             },
             "development": {
-              "browserTarget": "todo-app-angular:build:development"
+              "browserTarget": "todo-app-angular-firebase:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -80,7 +80,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "todo-app-angular:build"
+            "browserTarget": "todo-app-angular-firebase:build"
           }
         },
         "test": {
@@ -106,7 +106,7 @@
           "options": {
             "prerender": false,
             "ssr": false,
-            "browserTarget": "todo-app-angular:build:production"
+            "browserTarget": "todo-app-angular-firebase:build:production"
           }
         }
       }
