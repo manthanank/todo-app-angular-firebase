@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { TodoService } from '../shared/todo.service';
 @Component({
   selector: 'app-todo',
   standalone: true,
@@ -10,27 +10,37 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class TodoComponent implements OnInit {
 
-  newTodo = '';
-  todos: { todo: string; completed: boolean }[] = [];
+  toDoListArray: any[];
 
-  todoForm = new FormGroup({
-    todo: new FormControl('', Validators.required),
-  });
+  constructor(private toDoService: TodoService) { }
 
-  constructor() {}
+  ngOnInit() {
+    this.toDoService.getToDoList().snapshotChanges()
+      .subscribe((item: any) => {
+        this.toDoListArray = [];
+        item.forEach((element: any) => {
+          var x = element.payload.toJSON();
+          x["$key"] = element.key;
+          this.toDoListArray.push(x);
+        })
 
-  ngOnInit() {}
-
-  addTodo(todo: string) {
-    this.todos.push({ todo: todo, completed: false });
+        this.toDoListArray.sort((a, b) => {
+          return a.isChecked - b.isChecked;
+        })
+      });
   }
 
-  toggleCompleted(todo: { todo: string; completed: boolean }) {
-    todo.completed = !todo.completed;
+  onAdd(itemTitle: any) {
+    this.toDoService.addTitle(itemTitle.value);
+    itemTitle.value = null;
   }
 
-  deleteTodo(todo: { todo: string; completed: boolean }) {
-    this.todos = this.todos.filter((t) => t !== todo);
+  alterCheck($key: string, isChecked: any) {
+    this.toDoService.checkOrUnCheckTitle($key, !isChecked);
+  }
+
+  onDelete($key: string) {
+    this.toDoService.removeTitle($key);
   }
 
 }
