@@ -1,46 +1,36 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { TodoService } from '../shared/todo.service';
 @Component({
   selector: 'app-todo',
-  standalone: true,
-  imports: [CommonModule],
   templateUrl: './todo.component.html',
   styleUrls: ['./todo.component.scss']
 })
 export class TodoComponent implements OnInit {
 
-  toDoListArray: any[];
+  todos: any[] = [];
 
-  constructor(private toDoService: TodoService) { }
+  constructor(private todoService: TodoService) { }
 
-  ngOnInit() {
-    this.toDoService.getToDoList().snapshotChanges()
-      .subscribe((item: any) => {
-        this.toDoListArray = [];
-        item.forEach((element: any) => {
-          var x = element.payload.toJSON();
-          x["$key"] = element.key;
-          this.toDoListArray.push(x);
-        })
-
-        this.toDoListArray.sort((a, b) => {
-          return a.isChecked - b.isChecked;
-        })
-      });
+  ngOnInit(): void {
+    this.todoService.firestoreCollection.valueChanges({ idField: 'id' })
+      .subscribe(item => {
+        this.todos = item.sort((a:any,b:any) => 
+        {return a.isDone -b.isDone } );
+      })
   }
 
-  onAdd(itemTitle: any) {
-    this.toDoService.addTitle(itemTitle.value);
-    itemTitle.value = null;
+  onClick(titleInput: HTMLInputElement) {
+    if (titleInput.value) {
+      this.todoService.addTodo(titleInput.value);
+      titleInput.value = "";
+    }
   }
 
-  alterCheck($key: string, isChecked: any) {
-    this.toDoService.checkOrUnCheckTitle($key, !isChecked);
+  onStatusChange(id: string, newStatus: boolean) {
+    this.todoService.updateTodoStatus(id, newStatus);
   }
-
-  onDelete($key: string) {
-    this.toDoService.removeTitle($key);
+  
+  onDelete(id:string){
+    this.todoService.deleteTodo(id);
   }
-
 }

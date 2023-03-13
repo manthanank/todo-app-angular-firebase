@@ -1,24 +1,30 @@
-<div class="jumbotron" style="padding:45px 0px">
-  <h4 class="text-center">To Do List App</h4>
-</div>
-
-<div class="input-group">
-  <input type="text" class="form-control" #itemTitle>
-  <div class="input-group-addon hover-cursor" (click)="onAdd(itemTitle)">
-    <i class="fa fa-plus-circle fa-2x"></i>
+<div class="card shadow-lg mt-5">
+  <div class="card-header text-center py-4 border-0">
+      <h1 class="display-6 fw-bold">To Do List</h1>
   </div>
-</div>
+  <div class="card-body p-4">
 
-<div style="margin:5px 0px">
-  <ul class="list-group">
-    <li class="list-group-item" *ngFor="let item of toDoListArray">
-      <span class="hover-cursor" [class.text-success]="item.isChecked" (click)="alterCheck(item.$key,item.isChecked)">
-        <i class="fa fa-lg" [ngClass]="item.isChecked?'fa-check-circle-o':'fa-circle-thin'"></i>
-      </span>
-      {{item.title}}
-      <span class="hover-cursor text-danger pull-right" (click)="onDelete(item.$key)">
-        <i class="fa fa-trash-o fa-lg"></i>
-      </span>
-    </li>
-  </ul>
+      <ul class="list-group">
+          <li class="list-group-item mb-2 border py-0 rounded-3">
+              <div class="input-group">
+                  <input type="text" class="form-control border-0 py-3 shadow-none" placeholder="Title goes here"
+                      #titleInput>
+                  <button class="btn text-success border-0" (click)="onClick(titleInput)">
+                      <i class="fa-solid fa-circle-plus fa-xl"></i>
+                  </button>
+              </div>
+          </li>
+          <li class="list-group-item mb-2 border py-3 rounded-3" *ngFor="let item of todos">
+              <span>
+                  <i class="text-success" (click)="onStatusChange(item.id,!item.isDone)"
+                      [ngClass]="item.isDone?'fa-solid fa-circle-check':'fa-regular fa-circle'"></i>
+                  {{item.title}}
+                  <span class="float-end text-secondary"
+                  (click)="onDelete(item.id)">
+                      <i class="fa-solid fa-trash-can"></i>
+                  </span>
+              </span>
+          </li>
+      </ul>
+  </div>
 </div>

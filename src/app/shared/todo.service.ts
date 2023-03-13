@@ -1,32 +1,30 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase, AngularFireList } from '@angular/fire/compat/database';
+import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/compat/firestore'
 
 @Injectable({
   providedIn: 'root'
 })
 export class TodoService {
 
-  toDoList: AngularFireList<any>;
+  firestoreCollection: AngularFirestoreCollection;
   
-  constructor(private firebasedb: AngularFireDatabase) { }
+  constructor(private firebastore: AngularFirestore) {
+    this.firestoreCollection = firebastore.collection('todos');
+   }
 
-  getToDoList() {
-    this.toDoList = this.firebasedb.list('titles');
-    return this.toDoList;
+   addTodo(title: string){
+    this.firestoreCollection.add({
+      title,
+      isDone : false
+    })
   }
 
-  addTitle(title: string) {
-    this.toDoList.push({
-      title: title,
-      isChecked: false
-    });
+  updateTodoStatus(id:string, newStatus:boolean){
+    this.firestoreCollection.doc(id).update({isDone:newStatus});
   }
 
-  checkOrUnCheckTitle($key: string, flag: boolean) {
-    this.toDoList.update($key, { isChecked: flag });
+  deleteTodo(id:string){
+    this.firestoreCollection.doc(id).delete();
   }
 
-  removeTitle($key: string) {
-    this.toDoList.remove($key);
-  }
 }
