@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "todo-app-angular-firebase": {
+      "hosting": {
+        "todo-app-angular-firebase": [
+          "todo-app-angular-firebase"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "todo-app-angular-firebase"
+  }
+}

@@ -15,11 +15,11 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": "dist/todo-app-angular-firebase",
             "index": "src/index.html",
-            "main": "src/main.ts",
+            "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
             ],
@@ -32,7 +32,12 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "server": "src/main.server.ts",
+            "prerender": true,
+            "ssr": {
+              "entry": "server.ts"
+            }
           },
           "configurations": {
             "production": {
@@ -51,12 +56,15 @@
               "outputHashing": "all"
             },
             "development": {
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
-              "namedChunks": true
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -65,10 +73,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "todo-app-angular-firebase:build:production"
+              "buildTarget": "todo-app-angular-firebase:build:production"
             },
             "development": {
-              "browserTarget": "todo-app-angular-firebase:build:development"
+              "buildTarget": "todo-app-angular-firebase:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -76,7 +84,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "todo-app-angular-firebase:build"
+            "buildTarget": "todo-app-angular-firebase:build"
           }
         },
         "test": {
@@ -97,11 +105,28 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "version": 2
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "todo-app-angular-firebase:build:production",
+              "serveTarget": "todo-app-angular-firebase:serve:production"
+            },
+            "development": {
+              "buildTarget": "todo-app-angular-firebase:build:development",
+              "serveTarget": "todo-app-angular-firebase:serve:development"
+            }
+          },
+          "defaultConfiguration": "production"
         }
       }
     }
   },
   "cli": {
-    "analytics": "ad924637-7ead-47d7-89f9-873404f13727"
+    "analytics": "565cee70-3357-4d5e-95ba-e3a587670b75"
   }
 }
